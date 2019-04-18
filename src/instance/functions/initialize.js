@@ -17,7 +17,7 @@ export default function initialize() {
 			element.revealed = false
 		}
 
-		element.node.setAttribute('style', styles.filter(s => s !== '').join(' '))
+		element.node.setAttribute('style', styles.filter(s => s !== '').join(' ')) //设置样式
 	})
 
 	each(this.store.containers, container => {
@@ -25,14 +25,14 @@ export default function initialize() {
 			container.node === document.documentElement ? window : container.node
 		target.addEventListener('scroll', this.delegate)
 		target.addEventListener('resize', this.delegate)
-	})
+	});
 
 	/**
 	 * Manually invoke delegate once to capture
 	 * element and container dimensions, container
 	 * scroll position, and trigger any valid reveals
 	 */
-	this.delegate()
+	this.delegate() //入口三
 
 	/**
 	 * Wipe any existing `setTimeout` now

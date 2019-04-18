@@ -30,7 +30,7 @@ let instance
 export default function ScrollReveal(options = {}) {
 	const invokedWithoutNew =
 		typeof this === 'undefined' ||
-		Object.getPrototypeOf(this) !== ScrollReveal.prototype
+		Object.getPrototypeOf(this) !== ScrollReveal.prototype//判断当前this是已是ScrollReveal的对象
 
 	if (invokedWithoutNew) {
 		return new ScrollReveal(options)
@@ -45,7 +45,7 @@ export default function ScrollReveal(options = {}) {
 	try {
 		buffer = config
 			? deepAssign({}, config, options)
-			: deepAssign({}, defaults, options)
+			: deepAssign({}, defaults, options)//合并 自定义配置
 	} catch (e) {
 		logger.call(this, 'Invalid configuration.', e.message)
 		return mount.failure()
@@ -63,7 +63,7 @@ export default function ScrollReveal(options = {}) {
 
 	config = buffer
 
-	if ((!config.mobile && isMobile()) || (!config.desktop && !isMobile())) {
+	if ((!config.mobile && isMobile()) || (!config.desktop && !isMobile())) {//检测mobile desktop配置错误
 		logger.call(
 			this,
 			'This device is disabled.',
@@ -73,13 +73,13 @@ export default function ScrollReveal(options = {}) {
 		return mount.failure()
 	}
 
-	mount.success()
+	mount.success()//设置 body
 
-	this.store = {
-		containers: {},
-		elements: {},
-		history: [],
-		sequences: {}
+	this.store = { //应该是缓存一些处理对象
+		containers: {},//容器
+		elements: {},//elements集合 
+		history: [],//历史记录
+		sequences: {}//队列
 	}
 
 	this.pristine = true
@@ -92,7 +92,7 @@ export default function ScrollReveal(options = {}) {
 
 	Object.defineProperty(this, 'delegate', { get: () => boundDelegate })
 	Object.defineProperty(this, 'destroy', { get: () => boundDestroy })
-	Object.defineProperty(this, 'reveal', { get: () => boundReveal })
+	Object.defineProperty(this, 'reveal', { get: () => boundReveal })////入口一
 	Object.defineProperty(this, 'clean', { get: () => boundClean })
 	Object.defineProperty(this, 'sync', { get: () => boundSync })
 
@@ -103,8 +103,10 @@ export default function ScrollReveal(options = {}) {
 	return instance ? instance : (instance = this)
 }
 
+//是否支持
 ScrollReveal.isSupported = () => transformSupported() && transitionSupported()
 
+//添加debug属性
 Object.defineProperty(ScrollReveal, 'debug', {
 	get: () => debug || false,
 	set: value => (debug = typeof value === 'boolean' ? value : debug)

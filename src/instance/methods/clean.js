@@ -1,4 +1,4 @@
-import $ from 'tealight'
+import $ from 'tealight'//返回dom数组
 import each from '../../utils/each'
 import logger from '../../utils/logger'
 import rinse from '../functions/rinse'

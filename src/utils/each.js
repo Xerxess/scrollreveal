@@ -1,8 +1,9 @@
 import isObject from './is-object'
 
+//each 可便利｛｝对象 和 []对象
 export default function each(collection, callback) {
 	if (isObject(collection)) {
-		const keys = Object.keys(collection)
+		const keys = Object.keys(collection)//获取keys
 		return keys.forEach(key => callback(collection[key], key, collection))
 	}
 	if (collection instanceof Array) {

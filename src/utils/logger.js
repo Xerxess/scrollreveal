@@ -1,3 +1,9 @@
+
+/**
+ * 打印日期
+ * @param {*} message 
+ * @param  {...any} details 
+ */
 export default function logger(message, ...details) {
 	if (this.constructor.debug && console) {
 		let report = `%cScrollReveal: ${message}`

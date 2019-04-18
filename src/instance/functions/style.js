@@ -23,11 +23,11 @@ export default function style(element) {
 	const inlineStyle = element.node.getAttribute('style') || ''
 	const inlineMatch = inlineStyle.match(/[\w-]+\s*:\s*[^;]+\s*/gi) || []
 
-	inline.computed = inlineMatch ? inlineMatch.map(m => m.trim()).join('; ') + ';' : ''
+	inline.computed = inlineMatch ? inlineMatch.map(m => m.trim()).join('; ') + ';' : ''//获取inline styles的初始值
 
 	inline.generated = inlineMatch.some(m => m.match(/visibility\s?:\s?visible/i))
 		? inline.computed
-		: [...inlineMatch, 'visibility: visible'].map(m => m.trim()).join('; ') + ';'
+		: [...inlineMatch, 'visibility: visible'].map(m => m.trim()).join('; ') + ';'//添加visibility: visible
 
 	/**
 	 * Generate opacity styles
@@ -47,8 +47,8 @@ export default function style(element) {
 	 */
 	const transformations = []
 
-	if (parseFloat(config.distance)) {
-		const axis = config.origin === 'top' || config.origin === 'bottom' ? 'Y' : 'X'
+	if (parseFloat(config.distance)) {//如果自定义了distance
+		const axis = config.origin === 'top' || config.origin === 'bottom' ? 'Y' : 'X'//x: 水平 y:垂直
 
 		/**
 		 * Let’s make sure our our pixel distances are negative for top and left.
@@ -56,7 +56,7 @@ export default function style(element) {
 		 */
 		let distance = config.distance
 		if (config.origin === 'top' || config.origin === 'left') {
-			distance = /^-/.test(distance) ? distance.substr(1) : `-${distance}`
+			distance = /^-/.test(distance) ? distance.substr(1) : `-${distance}`//转为正数
 		}
 
 		const [value, unit] = distance.match(/(^-?\d+\.?\d?)|(em$|px$|%$)/g)
@@ -132,8 +132,8 @@ export default function style(element) {
 			matrix: parse(computed[transform.property])
 		}
 
-		transformations.unshift(transform.computed.matrix)
-		const product = transformations.reduce(multiply)
+		transformations.unshift(transform.computed.matrix)//将自带的transform放入数组一位
+		const product = transformations.reduce(multiply)//rematrix 合并矩阵方法
 
 		transform.generated = {
 			initial: `${transform.property}: matrix3d(${product.join(', ')});`,

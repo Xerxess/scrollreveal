@@ -11,8 +11,9 @@ export default function delegate(
 	event = { type: 'init' },
 	elements = this.store.elements
 ) {
+	// raf = window.requestAnimationFrame;
 	raf(() => {
-		const stale = event.type === 'init' || event.type === 'resize'
+		const stale = event.type === 'init' || event.type === 'resize' ?
 
 		each(this.store.containers, container => {
 			if (stale) {
@@ -21,7 +22,7 @@ export default function delegate(
 			const scroll = getScrolled.call(this, container)
 			if (container.scroll) {
 				container.direction = {
-					x: mathSign(scroll.left - container.scroll.left),
+					x: mathSign(scroll.left - container.scroll.left),//是否存在滚动条
 					y: mathSign(scroll.top - container.scroll.top)
 				}
 			}
@@ -45,7 +46,7 @@ export default function delegate(
 			if (element.sequence) {
 				sequence.call(this, element)
 			} else {
-				animate.call(this, element)
+				animate.call(this, element) //入口4
 			}
 		})
 

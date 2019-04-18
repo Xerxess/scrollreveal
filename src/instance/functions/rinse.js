@@ -1,6 +1,11 @@
 import $ from 'tealight'
 import each from '../../utils/each'
 
+//主要是清除无效的信息
+//containers: {},//容器
+// elements: {},//elements集合 
+// history: [],//历史记录
+// sequences: {}//队列
 export default function rinse() {
 	const struct = () => ({
 		active: [],
@@ -25,7 +30,7 @@ export default function rinse() {
 	/**
 	 * Destroy stale elements.
 	 */
-	each(this.store.elements, element => {
+	each(this.store.elements, element => {  
 		if (elementIds.active.indexOf(element.id) === -1) {
 			elementIds.stale.push(element.id)
 		}

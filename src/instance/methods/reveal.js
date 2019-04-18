@@ -14,6 +14,11 @@ import isMobile from '../../utils/is-mobile'
 import deepAssign from '../../utils/deep-assign'
 import nextUniqueId from '../../utils/next-unique-id'
 
+/**
+ * target:容器
+ * options:配制
+ * syncing：?
+ */
 export default function reveal(target, options = {}, syncing = false) {
 	const containerBuffer = []
 	let sequence
@@ -21,7 +26,7 @@ export default function reveal(target, options = {}, syncing = false) {
 
 	try {
 		if (interval) {
-			sequence = new Sequence(interval)
+			sequence = new Sequence(interval) //?
 		}
 
 		const nodes = tealight(target)
@@ -33,6 +38,7 @@ export default function reveal(target, options = {}, syncing = false) {
 			const element = {}
 			const existingId = elementNode.getAttribute('data-sr-id')
 
+
 			if (existingId) {
 				deepAssign(element, this.store.elements[existingId])
 
@@ -41,16 +47,16 @@ export default function reveal(target, options = {}, syncing = false) {
 				 * from throwing off the new styles, the style tag
 				 * has to be reverted to its pre-reveal state.
 				 */
-				element.node.setAttribute('style', element.styles.inline.computed)
+				element.node.setAttribute('style', element.styles.inline.computed)//?
 			} else {
-				element.id = nextUniqueId()
-				element.node = elementNode
-				element.seen = false
-				element.revealed = false
-				element.visible = false
+				element.id = nextUniqueId()//流水号
+				element.node = elementNode//当前element
+				element.seen = false//?
+				element.revealed = false//?
+				element.visible = false//是否可见
 			}
 
-			const config = deepAssign({}, element.config || this.defaults, options)
+			const config = deepAssign({}, element.config || this.defaults, options)//再次合并配置
 
 			if ((!config.mobile && isMobile()) || (!config.desktop && !isMobile())) {
 				if (existingId) {
@@ -63,12 +69,12 @@ export default function reveal(target, options = {}, syncing = false) {
 			if (!containerNode) {
 				throw new Error('Invalid container.')
 			}
-			if (!containerNode.contains(elementNode)) {
+			if (!containerNode.contains(elementNode)) { //当前节点不是容器子节点
 				return elementBuffer // skip elements found outside the container
 			}
 
 			let containerId
-			{
+			{//这里使用作用域｛｝
 				containerId = getContainerId(
 					containerNode,
 					containerBuffer,
@@ -81,8 +87,8 @@ export default function reveal(target, options = {}, syncing = false) {
 			}
 
 			element.config = config
-			element.containerId = containerId
-			element.styles = style(element)
+			element.containerId = containerId //又产生一个流水?
+			element.styles = style(element)//元素的style对象
 
 			if (sequence) {
 				element.sequence = {
@@ -127,7 +133,7 @@ export default function reveal(target, options = {}, syncing = false) {
 	 * If reveal wasn't invoked by sync, we want to
 	 * make sure to add this call to the history.
 	 */
-	if (syncing !== true) {
+	if (syncing !== true) { //是否立即开始执行效果
 		this.store.history.push({ target, options })
 
 		/**
@@ -137,10 +143,15 @@ export default function reveal(target, options = {}, syncing = false) {
 		if (this.initTimeout) {
 			window.clearTimeout(this.initTimeout)
 		}
-		this.initTimeout = window.setTimeout(initialize.bind(this), 0)
+		this.initTimeout = window.setTimeout(initialize.bind(this), 0) //入口二
 	}
 }
 
+/**
+ * 查询当前node 是否存在container.id
+ * @param {} node 
+ * @param  {...any} collections 
+ */
 function getContainerId(node, ...collections) {
 	let id = null
 	each(collections, collection => {

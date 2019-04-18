@@ -1,3 +1,7 @@
+/**
+ * 获取scroll对象 滚动条信息
+ * @param {获取} container 
+ */
 export default function getScrolled(container) {
 	let top, left
 	if (container.node === document.documentElement) {
