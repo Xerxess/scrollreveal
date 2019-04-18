@@ -13,7 +13,7 @@ export default function delegate(
 ) {
 	// raf = window.requestAnimationFrame;
 	raf(() => {
-		const stale = event.type === 'init' || event.type === 'resize' ?
+		const stale = event.type === 'init' || event.type === 'resize' //?
 
 		each(this.store.containers, container => {
 			if (stale) {
